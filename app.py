@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from googlemaps import Client
 
 # base app
 app = Flask(__name__)
@@ -11,6 +12,9 @@ db = SQLAlchemy(app)
 
 # migrate manager
 migrate = Migrate(app, db)
+
+# gmaps
+gmaps = Client(key=app.config['API_KEY'])
 
 
 from views import *

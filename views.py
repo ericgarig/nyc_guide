@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, gmaps
 from models import Place, Tag
 from forms import PlaceForm
 from flask import render_template, redirect, url_for
@@ -19,7 +19,27 @@ def place_list():
 @app.route('/place/<int:id>/')
 def place(id):
     place = Place.query.get(id)
+    if not place.lat:
+        geocode_place(id)
     return render_template('place_info.html', place=place)
+
+
+def geocode_place(id):
+    place = Place.query.get(id)
+    try:
+        print(id)
+        geocode_json = gmaps.geocode(place.address())
+        place_location = geocode_json[0]['geometry']['location']
+        print(place_location)
+        place.lat = place_location['lat']
+        place.lng = place_location['lng']
+        db.session.commit()
+        return True
+    except:
+        err_msg = 'Unable to geocode location'
+        print(err_msg)
+        return err_msg
+
 
 
 @app.route('/place/<int:id>/edit/', methods=['GET', 'POST'])
@@ -47,7 +67,9 @@ def new_place():
                           form.adr_zip.data)
         db.session.add(new_place)
         db.session.commit()
-        return redirect(url_for('place_list'))
+        if not place.lat:
+            geocode_place(id)
+    return redirect(url_for('place_list'))
     return render_template('place_new.html', form=form)
 
 
