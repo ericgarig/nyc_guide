@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- <link rel="icon" href="../../favicon.ico"> -->
+		<title>NYC guide</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="{{ url_for('static', filename='css/jumbotron-narrow.css') }}" rel="stylesheet">
+
+		<!-- font awesome -->
+		<!-- <script src="https://use.fontawesome.com/44f87bf6fb.js"></script> -->
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="header clearfix">
+				{% include 'nav.html' %}
+			</div>
+
+				<!-- child template -->
+				{% block content %}{% endblock %}
+
+				<!-- errors -->
+				{% if error %}
+					<p class="error"><strong>Error:</strong> {{ error }}</p>
+				{% endif %}
+
+				<!-- messages -->
+				{% for message in get_flashed_messages() %}
+					{{ message }}
+				{% endfor %}
+
+			</div>
+
+			<footer class="footer">
+				<p>&copy; 2017 Company, Inc.</p>
+			</footer>
+
+		</div><!-- /container -->
+
+		<!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"><\/script>')</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	</body>
+</html>

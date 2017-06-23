@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<a class="badge badge-default" href="{{ url_for( 'edit_place', id=place.id) }}">edit</a>
+
+<div class="container">
+    <h1>{{ place.name }}</h1>
+    <p>{{ place.address() }}
+
+    <p>{{ place.description }}</p>
+
+    {% for tag in place.tags %}
+        <a class="badge badge-info" href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
+    {% endfor %}
+</div>
+
+<div class="alert alert-warning" role="alert">placeholder for google map</div>
+
+{% endblock %}

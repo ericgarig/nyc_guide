@@ -1,0 +1,15 @@
+### general ###
+.DS_Store
+
+### compiled ###
+__pycache__
+*.py[cod]
+
+### virtualenv ###
+venv/
+
+### database ###
+*.db
+
+### specific files ###
+config.py

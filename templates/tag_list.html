@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if tags %}
+	<div class="list-group">
+		<a class="list-group-item list-group-item-action list-group-item-info" href=""><Strong>Add new</Strong></a>
+		{% for tag in tags %}
+			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% endblock %}

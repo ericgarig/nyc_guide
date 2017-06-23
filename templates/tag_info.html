@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+	<h1><span class="badge badge-info">{{ tag }}</span></h1>
+</div>
+
+{% if places %}
+	<div class="list-group">
+		{% for place in places %}
+			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place', id=place.id) }}">{{ place.name }}
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class="alert alert-warning" role="alert">placeholder for google map</div>
+
+{% endblock %}
