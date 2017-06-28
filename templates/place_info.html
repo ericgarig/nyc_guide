@@ -1,19 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
 
-<a class="badge badge-default" href="{{ url_for( 'edit_place', id=place.id) }}">edit</a>
+    <div class="container">
+        <a class="badge badge-default" href="{{ url_for( 'edit_place', id=place.id) }}">edit</a>
+        <h1>{{ place.name }}</h1>
+        <div class="container">
+            <p>{{ place.description }}</p>
+        </div>
+        <p>{{ place.address() }}
 
-<div class="container">
-    <h1>{{ place.name }}</h1>
-    <p>{{ place.address() }}
+        <!-- {% for tag in place.tags %}
+            <a class="badge badge-info" href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
+        {% endfor %} -->
+    </div>
 
-    <p>{{ place.description }}</p>
-
-    {% for tag in place.tags %}
-        <a class="badge badge-info" href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>
-    {% endfor %}
-</div>
-
-<div class="alert alert-warning" role="alert">placeholder for google map</div>
+    <div class="container">
+        {% if place.lat and place.lng %}
+            <img src="https://maps.googleapis.com/maps/api/staticmap?key={{api_key}}&markers={{ place.lat}},{{place.lng}}&size=700x500" class="img-fluid" alt="Responsive image">
+        {% else %}
+            <div class="alert alert-danger" role="alert">missing address</div>
+        {% endif %}
+    </div>
 
 {% endblock %}

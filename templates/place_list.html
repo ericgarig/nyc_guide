@@ -6,11 +6,11 @@
 		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('new_place') }}"><Strong>Add new</Strong></a>
 		{% for place in places %}
 			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place', id=place.id) }}">{{ place.name }}
-				<div>
+				<!-- <div>
 				{% for tag in place.tags %}
 					<span class="badge badge-info">{{ tag.name }}</span>
 				{% endfor %}
-				</div>
+				</div> -->
 			</a>
 		{% endfor %}
 	</div>

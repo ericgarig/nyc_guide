@@ -21,7 +21,8 @@ def place(id):
     place = Place.query.get(id)
     if not place.lat:
         geocode_place(id)
-    return render_template('place_info.html', place=place)
+    api_key = app.config['API_KEY_MAPS']
+    return render_template('place_info.html', place=place, api_key=api_key)
 
 
 def geocode_place(id):

@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # gmaps
-gmaps = Client(key=app.config['API_KEY'])
+gmaps = Client(key=app.config['API_KEY_GEOCODING'])
 
 
 from views import *
