@@ -27,10 +27,8 @@ def place(id):
 def geocode_place(id):
     place = Place.query.get(id)
     try:
-        print(id)
         geocode_json = gmaps.geocode(place.address())
         place_location = geocode_json[0]['geometry']['location']
-        print(place_location)
         place.lat = place_location['lat']
         place.lng = place_location['lng']
         db.session.commit()
@@ -39,7 +37,6 @@ def geocode_place(id):
         err_msg = 'Unable to geocode location'
         print(err_msg)
         return err_msg
-
 
 
 @app.route('/place/<int:id>/edit/', methods=['GET', 'POST'])
