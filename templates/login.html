@@ -1,0 +1,14 @@
+{% from "_render_field.html" import render_field %}
+
+{% extends "base.html" %}
+{% block content %}
+
+<form method="POST" action="{{ url_for('login') }}">
+	{{ form.hidden_tag() }}
+
+	{{ render_field(form.username )}}
+	{{ render_field(form.password )}}
+	<button type="submit" class="btn btn-primary">Login!</button>
+</form>
+
+{% endblock %}

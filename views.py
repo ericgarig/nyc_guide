@@ -1,7 +1,8 @@
-from app import app, db, gmaps
-from models import Place, Tag
-from forms import PlaceForm
+from app import app, db, gmaps, lm, bcrypt
+from models import Place, Tag, User
+from forms import LoginForm, PlaceForm
 from flask import render_template, redirect, url_for
+from flask_login import login_required, login_user, logout_user
 
 
 @app.route('/')
@@ -41,6 +42,7 @@ def geocode_place(id):
 
 
 @app.route('/place/<int:id>/edit/', methods=['GET', 'POST'])
+@login_required
 def edit_place(id):
     place = Place.query.get(id)
     form = PlaceForm(obj=place)
@@ -65,9 +67,11 @@ def new_place():
                           form.adr_zip.data)
         db.session.add(new_place)
         db.session.commit()
-        if not place.lat:
-            geocode_place(id)
-    return redirect(url_for('place_list'))
+        # print(new_place)
+        # place = Place.query.filter_by(name=new_place['name']).first()
+        # if not place.lat:
+        #     geocode_place(id)
+        return redirect(url_for('place_list'))
     return render_template('place_new.html', form=form)
 
 
@@ -89,3 +93,27 @@ def tag(tag_name):
         .filter(Tag.name == tag_name)
     )
     return render_template('tag_info.html', places=places, tag=tag_name)
+
+
+@lm.user_loader
+def user_loader(id):
+    return User.query.get(id)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for('welcome'))
+    return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('welcome'))

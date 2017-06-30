@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     IntegerField,
+    PasswordField,
     StringField,
     TextAreaField
 )
@@ -18,3 +19,10 @@ class PlaceForm(FlaskForm):
     adr_city = StringField('City', render_kw={"placeholder": "city"})
     adr_state = StringField('State', render_kw={"placeholder": "state"})
     adr_zip = StringField('Zipcode', render_kw={"placeholder": "zipcode"})
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()],
+                        render_kw={"placeholder": "username"})
+    password = PasswordField('Password', validators=[DataRequired()],
+                             render_kw={"placeholder": "password"})
