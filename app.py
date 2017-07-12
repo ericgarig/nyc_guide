@@ -28,3 +28,7 @@ gmaps = Client(key=app.config['API_KEY_GEOCODING'])
 
 from views import *
 from models import *
+
+
+if __name__ == '__main.py__':
+    app.run()
