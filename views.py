@@ -56,6 +56,7 @@ def edit_place(id):
 
 
 @app.route('/place/new', methods=['GET', 'POST'])
+@login_required
 def new_place():
     form = PlaceForm()
     if form.validate_on_submit():
@@ -95,6 +96,7 @@ def tag(tag_name):
     return render_template('tag_info.html', places=places, tag=tag_name)
 
 
+# ### USER ###
 @lm.user_loader
 def user_loader(id):
     return User.query.get(id)

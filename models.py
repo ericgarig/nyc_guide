@@ -88,5 +88,5 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        """Return the email address to satisfy Flask-Login's requirements."""
-        return self.email
+        """Return the id address to satisfy Flask-Login's requirements."""
+        return self.id
