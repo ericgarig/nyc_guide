@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="POST" action="{{ url_for('edit_place', id=place.id) }}">
+<form method="POST" action="{{ url_for('place.edit', id=place.id) }}">
 	{{ form.hidden_tag() }}
 
 	{{ render_field(form.name )}}

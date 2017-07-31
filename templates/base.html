@@ -27,18 +27,28 @@
 				{% include 'nav.html' %}
 			</div>
 
-				<!-- child template -->
-				{% block content %}{% endblock %}
-
 				<!-- errors -->
 				{% if error %}
-					<p class="error"><strong>Error:</strong> {{ error }}</p>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+ 						<strong>Error: </strong> {{ error }}
+					</div>
 				{% endif %}
 
 				<!-- messages -->
 				{% for message in get_flashed_messages() %}
-					{{ message }}
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{{ message }}
+					</div>
 				{% endfor %}
+
+				<!-- child template -->
+				{% block content %}{% endblock %}
 
 			</div>
 

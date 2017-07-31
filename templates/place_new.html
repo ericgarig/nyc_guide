@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="POST" action="{{ url_for('new_place') }}">
+<form method="POST" action="{{ url_for('place.new') }}">
 	{{ form.hidden_tag() }}
 
 	{{ render_field(form.name )}}

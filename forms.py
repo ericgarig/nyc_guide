@@ -21,8 +21,14 @@ class PlaceForm(FlaskForm):
     adr_zip = StringField('Zipcode', render_kw={"placeholder": "zipcode"})
 
 
+class TagForm(FlaskForm):
+    tag_id = IntegerField('tag_id')
+    name = StringField('Name', validators=[DataRequired()],
+                       render_kw={"placeholder": "name"})
+
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()],
-                        render_kw={"placeholder": "username"})
+                           render_kw={"placeholder": "username"})
     password = PasswordField('Password', validators=[DataRequired()],
                              render_kw={"placeholder": "password"})

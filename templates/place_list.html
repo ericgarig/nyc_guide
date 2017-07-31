@@ -2,9 +2,17 @@
 {% block content %}
 
 	<div class="list-group">
-		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('new_place') }}"><Strong>Add new</Strong></a>
+	
+		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('place.map') }}">
+			<Strong>See on a map</Strong>
+		</a>
+
+		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('place.new') }}">
+			<Strong>Add new</Strong>
+		</a>
+
 		{% for place in places | sort(attribute='name') %}
-			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place', id=place.id) }}">{{ place.name }}
+			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place.detail', id=place.id) }}">{{ place.name }}
 				<!-- <div>
 				{% for tag in place.tags %}
 					<span class="badge badge-info">{{ tag.name }}</span>
@@ -12,6 +20,7 @@
 				</div> -->
 			</a>
 		{% endfor %}
+
 	</div>
 
 {% endblock %}

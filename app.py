@@ -18,12 +18,21 @@ migrate = Migrate(app, db)
 # logins
 lm = LoginManager()
 lm.init_app(app)
-lm.login_view = "login"
+lm.login_view = "user.login"
 # password hashing
 bcrypt = Bcrypt(app)
 
 # gmaps
 gmaps = Client(key=app.config['API_KEY_GEOCODING'])
+
+# blueprints
+from view_user import vu
+from view_place import vp
+from view_tag import vt
+app.register_blueprint(vu, url_prefix='/user')
+app.register_blueprint(vp, url_prefix='/place')
+app.register_blueprint(vt, url_prefix='/tag')
+
 
 
 from views import *
