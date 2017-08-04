@@ -1,5 +1,5 @@
 from app import app, db, gmaps
-from models import Place
+from models import Place, PlaceSchema
 from forms import PlaceForm
 from flask import Blueprint, flash, jsonify, render_template, redirect, url_for
 from flask_login import login_required
@@ -87,3 +87,8 @@ def map():
     # places = jsonify(Place.query.all())
     # print(places)
     return render_template('place_map.html', api_key=api_key)
+
+
+@vp.route('/json/')
+def json_list():
+    return PlaceSchema().dump(Place.query.all())

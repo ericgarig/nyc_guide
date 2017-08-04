@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from googlemaps import Client
@@ -13,6 +14,8 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 # migrate manager
 migrate = Migrate(app, db)
+# obj (de)serialization
+ma = Marshmallow(app)
 
 
 # logins

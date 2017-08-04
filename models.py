@@ -1,4 +1,4 @@
-from app import db, bcrypt
+from app import db, bcrypt, ma
 
 
 # users that can modify data
@@ -17,7 +17,7 @@ class User(db.Model):
         self.email = email
 
     def __repr__(self):
-        return '<User %>'.format(self.username)
+        return '<User {}>'.format(self.username)
 
     def is_active(self):
         """True, as all users are active."""
@@ -43,7 +43,7 @@ class PlaceTag(object):
         self.tag_id = tag_id
 
     def __repr__(self):
-        return '<PlaceTag % %>'.format(self.place_id, self.tag_id)
+        return '<PlaceTag {} {}>'.format(self.place_id, self.tag_id)
 
 
 # 'helper' table
@@ -93,7 +93,7 @@ class Place(db.Model):
         self.adr_zip = adr_zip
 
     def __repr__(self):
-        return '<Place %>'.format(self.name)
+        return '<Place {}>'.format(self.name)
 
     def address(self):
         if self.adr_street:
@@ -120,3 +120,14 @@ class Tag(db.Model):
 
     def __repr__(self):
         return '<Tag {}>'.format(self.name)
+
+
+# serialization
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+
+
+class PlaceSchema(ma.ModelSchema):
+    class Meta:
+        model = Place
