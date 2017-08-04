@@ -7,6 +7,8 @@ from sqlalchemy import func
 
 
 vp = Blueprint('place', __name__)
+place_schema = PlaceSchema()
+places_schema = PlaceSchema(many=True)
 
 
 @vp.route('/all')
@@ -84,11 +86,10 @@ def delete(id):
 @vp.route('/map/')
 def map():
     api_key = app.config['API_KEY_MAPS']
-    # places = jsonify(Place.query.all())
-    # print(places)
-    return render_template('place_map.html', api_key=api_key)
+    places = json_list()
+    return render_template('place_map.html', api_key=api_key, places=places)
 
 
 @vp.route('/json/')
 def json_list():
-    return PlaceSchema().dump(Place.query.all())
+    return jsonify(places_schema.dump(Place.query.all()).data)

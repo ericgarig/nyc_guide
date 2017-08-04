@@ -1,11 +1,13 @@
 from app import lm, bcrypt
-from models import User
+from models import User, UserSchema
 from forms import LoginForm
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, jsonify, render_template, redirect, url_for
 from flask_login import login_required, login_user, logout_user
 
 
 vu = Blueprint('user', __name__)
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 
 @lm.user_loader
@@ -30,3 +32,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('welcome'))
+
+
+@vu.route('/json/')
+def json_list():
+    return jsonify(user_schema.dump(User.query.all()).data)

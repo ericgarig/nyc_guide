@@ -131,3 +131,13 @@ class UserSchema(ma.ModelSchema):
 class PlaceSchema(ma.ModelSchema):
     class Meta:
         model = Place
+
+
+class TagSchema(ma.ModelSchema):
+    class Meta:
+        model = Tag
+
+
+class PlaceTagSchema(ma.ModelSchema):
+    class Meta:
+        model = PlaceTag

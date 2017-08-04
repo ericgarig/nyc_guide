@@ -1,11 +1,13 @@
 from app import db
-from models import Tag
+from models import Tag, TagSchema
 from forms import TagForm
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, jsonify, render_template, redirect, url_for
 from flask_login import login_required
 
 
 vt = Blueprint('tag', __name__)
+tag_schema = TagSchema()
+tags_schema = TagSchema(many=True)
 
 
 @vt.route('/all')
@@ -42,3 +44,8 @@ def new():
         db.session.commit()
         return redirect(url_for('.list'))
     return render_template('tag_new.html', form=form)
+
+
+@vt.route('/json/')
+def json_list():
+    return jsonify(tag_schema.dump(Tag.query.all()).data)
