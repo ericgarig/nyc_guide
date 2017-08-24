@@ -9,9 +9,10 @@
     </style>
 
     <script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
 
     <script>
-        function initMap() {
+        function initMap(markers) {
             var map;
             var bounds = new google.maps.LatLngBounds();
             var mapOptions = {
@@ -22,42 +23,23 @@
             map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
             map.setTilt(50);
                 
-            // Multiple markers location, latitude, and longitude
-            var markers = [
-                ['Boilermaker', 40.723434, -73.988567],
-                ['Xian', 40.727825, -73.985534]
-            ];
-                                
-            // Info window content
-            var infoWindowContent = [
-                '<div class="info_content">' + 
-                '<h3>Boilermaker</h3>' +
-                '<p>bar, cocktails on tap, great burger.</p>' +
-                '</div>',
-
-                '<div class="info_content">' +
-                '<h3>Xian</h3>' +
-                '<p>spicy hand-pulled noodles.</p>' +
-                '</div>'
-            ];
-                
             // Add multiple markers to map
             var infoWindow = new google.maps.InfoWindow(), marker, i;
             
             // Place each marker on the map  
             for( i = 0; i < markers.length; i++ ) {
-                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                var position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
                 bounds.extend(position);
                 marker = new google.maps.Marker({
                     position: position,
                     map: map,
-                    title: markers[i][0]
+                    title: markers[i].name
                 });
                 
                 // Add info window to marker    
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        infoWindow.setContent(infoWindowContent[i]);
+                        infoWindow.setContent(markerContent(markers[i]));
                         infoWindow.open(map, marker);
                     }
                 })(marker, i));
@@ -72,8 +54,24 @@
                 google.maps.event.removeListener(boundsListener);
             });
         }
+
+        function markerContent(marker) {
+            return `
+                <div class="info_content">  
+                    <h3>${marker.name}</h3> 
+                    <p>${marker.description}</p> 
+                </div>
+            `;
+        }
+
         // Load initialize function
-        google.maps.event.addDomListener(window, 'load', initMap);
+        google.maps.event.addDomListener(window, 'load', function() {
+
+            axios.get('/place/json').then(function(response) {
+                initMap(response.data);
+            });
+
+        });
     </script>
 
     <div id="mapCanvas"></div>
