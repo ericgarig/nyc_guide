@@ -139,5 +139,6 @@ class TagSchema(ma.ModelSchema):
 
 
 class PlaceTagSchema(ma.ModelSchema):
-    class Meta:
-        model = PlaceTag
+    # class Meta:
+    #     model = PlaceTag
+    pass
