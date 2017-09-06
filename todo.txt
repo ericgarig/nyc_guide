@@ -3,3 +3,4 @@ bring back place tagging
 search by tag
 user signup
 yelp link for places
+tag/display places visited vs. need to try
