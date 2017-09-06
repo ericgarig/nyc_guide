@@ -1,7 +1,5 @@
 move config file into environment vars
-display proper login/logout buttons to the user
-only authenticated users should be able to edit/create places
 bring back place tagging
-display map of all places
 search by tag
 user signup
+yelp link for places
