@@ -1,24 +1,29 @@
 from flask_wtf import FlaskForm
+
 from wtforms import (
     IntegerField,
     PasswordField,
     StringField,
     TextAreaField
 )
+
 from wtforms.validators import DataRequired
 
 
 class PlaceForm(FlaskForm):
     place_id = IntegerField('place_id')
-    name = StringField('Name', validators=[DataRequired()],
-                       render_kw={"placeholder": "name"})
-    description = TextAreaField('Description',
+    name = StringField('name', validators=[DataRequired()], render_kw={
+                       "placeholder": "name"})
+    description = TextAreaField('description',
                                 render_kw={"placeholder": "description"})
-    adr_street = StringField('Street',
+    adr_street = StringField('street',
                              render_kw={"placeholder": "street address"})
-    adr_city = StringField('City', render_kw={"placeholder": "city"})
-    adr_state = StringField('State', render_kw={"placeholder": "state"})
-    adr_zip = StringField('Zipcode', render_kw={"placeholder": "zipcode"})
+    adr_city = StringField('city', render_kw={"placeholder": "city"})
+    adr_state = StringField('state', render_kw={"placeholder": "state"})
+    adr_zip = StringField('zipcode', render_kw={"placeholder": "zipcode"})
+    website_url = StringField('website', render_kw={
+                              "placeholder": "website URL"})
+    yelp_url = StringField('yelp', render_kw={"placeholder": "yelp URL"})
 
 
 class TagForm(FlaskForm):

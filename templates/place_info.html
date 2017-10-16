@@ -7,7 +7,15 @@
         <div class="container">
             <p>{{ place.description }}</p>
         </div>
-        <p>{{ place.address() }}
+        <p>{{ place.address() }}</p>
+        {% if place.website_url %}
+            <a class="badge badge-default" target="_blank" href="{{ place.website_url }}">website</a>
+        {% endif %}
+        {% if place.yelp_url %}
+            <a class="badge badge-default" target="_blank" href="{{ place.yelp_url }}">yelp</a>
+        {% endif %}
+        
+
 
         <!-- {% for tag in place.tags %}
             <a class="badge badge-info" href="{{ url_for('tag', tag_name=tag.name) }}">{{ tag.name }}</a>

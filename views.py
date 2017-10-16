@@ -1,6 +1,8 @@
 from app import app
-from models import Place, Tag
+
 from flask import render_template
+
+from models import Place, Tag
 
 
 @app.route('/')

@@ -1,8 +1,12 @@
-from app import lm, bcrypt
-from models import User, UserSchema
-from forms import LoginForm
-from flask import Blueprint, jsonify, render_template, redirect, url_for
+from app import bcrypt, lm
+
+from flask import Blueprint, jsonify, redirect, render_template, url_for
+
 from flask_login import login_required, login_user, logout_user
+
+from forms import LoginForm
+
+from models import User, UserSchema
 
 
 vu = Blueprint('user', __name__)

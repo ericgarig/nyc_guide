@@ -1,4 +1,4 @@
-from app import db, bcrypt, ma
+from app import bcrypt, db, ma
 
 
 # users that can modify data
@@ -73,6 +73,8 @@ class Place(db.Model):
     adr_city = db.Column(db.String)
     adr_state = db.Column(db.String(2))
     adr_zip = db.Column(db.String(5))
+    website_url = db.Column(db.String)
+    yelp_url = db.Column(db.String)
 
     tags = db.relationship('Tag',
                            secondary=place_tag,

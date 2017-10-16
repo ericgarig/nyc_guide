@@ -1,8 +1,13 @@
 from app import app, db, gmaps
-from models import Place, PlaceSchema
-from forms import PlaceForm
-from flask import Blueprint, flash, jsonify, render_template, redirect, url_for
+
+from flask import Blueprint, flash, jsonify, redirect, render_template, url_for
+
 from flask_login import login_required
+
+from forms import PlaceForm
+
+from models import Place, PlaceSchema
+
 from sqlalchemy import func
 
 

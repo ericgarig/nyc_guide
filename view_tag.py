@@ -1,8 +1,12 @@
 from app import db
-from models import Tag, TagSchema
-from forms import TagForm
-from flask import Blueprint, jsonify, render_template, redirect, url_for
+
+from flask import Blueprint, jsonify, redirect, render_template, url_for
+
 from flask_login import login_required
+
+from forms import TagForm
+
+from models import Tag, TagSchema
 
 
 vt = Blueprint('tag', __name__)

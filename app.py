@@ -1,10 +1,17 @@
 from flask import Flask
+
 from flask_bcrypt import Bcrypt
+
 from flask_login import LoginManager
+
 from flask_marshmallow import Marshmallow
+
 from flask_migrate import Migrate
+
 from flask_sqlalchemy import SQLAlchemy
+
 from googlemaps import Client
+
 
 # base app
 app = Flask(__name__)
@@ -29,17 +36,19 @@ bcrypt = Bcrypt(app)
 gmaps = Client(key=app.config['API_KEY_GEOCODING'])
 
 # blueprints
-from view_user import vu
 from view_place import vp
+
 from view_tag import vt
+
+from view_user import vu
 app.register_blueprint(vu, url_prefix='/user')
 app.register_blueprint(vp, url_prefix='/place')
 app.register_blueprint(vt, url_prefix='/tag')
 
 
+from models import *
 
 from views import *
-from models import *
 
 
 if __name__ == '__main.py__':
