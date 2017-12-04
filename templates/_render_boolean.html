@@ -1,0 +1,24 @@
+{% macro render_boolean(field) %}
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="form-check col-sm-10">
+        <label class="form-check-label">
+            {{ field(class="form-check-input") }}{{ field.label }}
+        </label>
+    </div>
+</div>
+
+
+<!-- <div class="form-group row">
+    <label class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-1">{{ field(class_="form-control") }}</div>
+    <div class="col-sm-9">{{ field.label }}</div>
+</div> -->
+
+
+<ul>
+{% for error in field.errors %}
+    <li style="color:red;">{{ error }}</li>
+{% endfor %}
+</ul>
+{% endmacro %}

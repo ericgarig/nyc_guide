@@ -1,13 +1,9 @@
+"""Place views."""
 from app import app, db, gmaps
-
 from flask import Blueprint, flash, jsonify, redirect, render_template, url_for
-
 from flask_login import login_required
-
 from forms import PlaceForm
-
 from models import Place, PlaceSchema
-
 from sqlalchemy import func
 
 
@@ -18,19 +14,29 @@ places_schema = PlaceSchema(many=True)
 
 @vp.route('/all')
 def list():
-    return render_template('place_list.html', places=Place.query.all())
+    """List all available places."""
+    form = PlaceForm()
+    return render_template('place_list.html',
+                           places=Place.query.all(),
+                           form=form)
 
 
 @vp.route('/<int:id>/')
 def detail(id):
+    """View details about a place."""
     place = Place.query.get(id)
-    if not place.lat:
+    form = PlaceForm(obj=place)
+    if not place.lat and place.adr_street:
         geocode_place(id)
     api_key = app.config['API_KEY_MAPS']
-    return render_template('place_info.html', place=place, api_key=api_key)
+    return render_template('place_info.html',
+                           place=place,
+                           api_key=api_key,
+                           form=form)
 
 
 def geocode_place(id):
+    """Geocode a place."""
     place = Place.query.get(id)
     try:
         geocode_json = gmaps.geocode(place.address())
@@ -45,43 +51,39 @@ def geocode_place(id):
         return err_msg
 
 
-@vp.route('/<int:id>/edit/', methods=['GET', 'POST'])
+@vp.route('/<int:id>/edit/', methods=['POST'])
 @login_required
 def edit(id):
+    """Edit a place."""
     place = Place.query.get(id)
-    form = PlaceForm(obj=place)
+    form = PlaceForm()
     if form.validate_on_submit():
         form.populate_obj(place)
         db.session.commit()
-        return redirect(url_for('.detail', id=id))
-    return render_template('place_edit.html',
-                           place=place,
-                           form=form)
+    return redirect(url_for('.detail', id=id))
 
 
-@vp.route('/new', methods=['GET', 'POST'])
+@vp.route('/new', methods=['POST'])
 @login_required
 def new():
+    """Add a new place from a POST request."""
     form = PlaceForm()
     if form.validate_on_submit():
         if Place.query.filter(func.lower(Place.name) ==
                               func.lower(form.name.data)
                               ).count() == 0:
-            new_place = Place(form.name.data, form.description.data,
-                              None, None,
-                              form.adr_street.data,
-                              form.adr_city.data,
-                              form.adr_state.data,
-                              form.adr_zip.data)
+            new_place = Place()
+            form.populate_obj(new_place)
             db.session.add(new_place)
             db.session.commit()
             return redirect(url_for('.list'))
         flash('a place with this name already exists')
-    return render_template('place_new.html', form=form)
+    return redirect(url_for('.list'))
 
 
 @vp.route('/<int:id>/delete/')
 def delete(id):
+    """Delete a place."""
     place = Place.query.get(id)
     db.session.delete(place)
     db.session.commit()
@@ -90,6 +92,7 @@ def delete(id):
 
 @vp.route('/map/')
 def map():
+    """Render a map of all the places."""
     api_key = app.config['API_KEY_MAPS']
     places = json_list()
     return render_template('place_map.html', api_key=api_key, places=places)
@@ -97,4 +100,5 @@ def map():
 
 @vp.route('/json/')
 def json_list():
+    """Return JSON of all of the places."""
     return jsonify(places_schema.dump(Place.query.all()).data)

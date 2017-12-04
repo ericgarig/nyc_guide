@@ -1,38 +1,47 @@
+"""App forms."""
 from flask_wtf import FlaskForm
-
 from wtforms import (
+    BooleanField,
+    HiddenField,
     IntegerField,
     PasswordField,
     StringField,
     TextAreaField
 )
-
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, Optional
 
 
 class PlaceForm(FlaskForm):
-    place_id = IntegerField('place_id')
-    name = StringField('name', validators=[DataRequired()], render_kw={
-                       "placeholder": "name"})
-    description = TextAreaField('description',
+    """Form for adding/editing places."""
+
+    id = HiddenField('id')
+    name = StringField('Name', validators=[DataRequired()], render_kw={
+                       "Placeholder": "name"})
+    description = TextAreaField('Description',
                                 render_kw={"placeholder": "description"})
-    adr_street = StringField('street',
+    adr_street = StringField('Street',
                              render_kw={"placeholder": "street address"})
-    adr_city = StringField('city', render_kw={"placeholder": "city"})
-    adr_state = StringField('state', render_kw={"placeholder": "state"})
-    adr_zip = StringField('zipcode', render_kw={"placeholder": "zipcode"})
-    website_url = StringField('website', render_kw={
+    adr_city = StringField('City', render_kw={"placeholder": "city"})
+    adr_state = StringField('State', render_kw={"placeholder": "state"})
+    adr_zip = StringField('Zipcode', render_kw={"placeholder": "zipcode"})
+    phone = StringField('Phone', validators=[Optional(), Length(10)])
+    website_url = StringField('Website', render_kw={
                               "placeholder": "website URL"})
-    yelp_url = StringField('yelp', render_kw={"placeholder": "yelp URL"})
+    yelp_url = StringField('Yelp', render_kw={"placeholder": "yelp URL"})
+    visited = BooleanField('Visited?')
 
 
 class TagForm(FlaskForm):
+    """Form for adding/editing tags."""
+
     tag_id = IntegerField('tag_id')
     name = StringField('Name', validators=[DataRequired()],
                        render_kw={"placeholder": "name"})
 
 
 class LoginForm(FlaskForm):
+    """Form for logging in."""
+
     username = StringField('Username', validators=[DataRequired()],
                            render_kw={"placeholder": "username"})
     password = PasswordField('Password', validators=[DataRequired()],

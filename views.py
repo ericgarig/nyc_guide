@@ -24,3 +24,8 @@ def tag(tag_name):
         .filter(Tag.name == tag_name)
     )
     return render_template('tag_info.html', places=places, tag=tag_name)
+
+
+@app.route('/debug')
+def debug():
+    return render_template('debug.html')

@@ -1,26 +1,83 @@
+{% from "_render_field.html" import render_field %}
+{% from "_render_boolean.html" import render_boolean %}
+
 {% extends "base.html" %}
 {% block content %}
+<div class="list-group">
+	<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('place.map') }}">
+		<Strong>See on a map</Strong>
+	</a>
 
-	<div class="list-group">
-	
-		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('place.map') }}">
-			<Strong>See on a map</Strong>
+	<button type="button" class="list-group-item list-group-item-action list-group-item-info" data-toggle="modal" data-target="#newPlaceModal">
+		<Strong>Add a new place</Strong>
+	</button>
+
+	{% for place in places | sort(attribute='name') %}
+		<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place.detail', id=place.id) }}">
+			{{ place.name }}
+			{% if place.visited %}
+				<span class="badge badge-success">Visited!</span>
+			{% else %}
+				<span class="badge badge-warning">Need to go!</span>
+			{% endif %}
+
+			<!-- <div>
+			{% for tag in place.tags %}
+				<span class="badge badge-info">{{ tag.name }}</span>
+			{% endfor %}
+			</div> -->
 		</a>
+	{% endfor %}
+</div>
 
-		<a class="list-group-item list-group-item-action list-group-item-info" href="{{ url_for('place.new') }}">
-			<Strong>Add new</Strong>
-		</a>
 
-		{% for place in places | sort(attribute='name') %}
-			<a class="list-group-item list-group-item-action justify-content-between" href="{{ url_for('place.detail', id=place.id) }}">{{ place.name }}
-				<!-- <div>
-				{% for tag in place.tags %}
-					<span class="badge badge-info">{{ tag.name }}</span>
-				{% endfor %}
-				</div> -->
-			</a>
-		{% endfor %}
+<!-- Modal -->
+<div class="modal fade" id="newPlaceModal" tabindex="-1" role="dialog" aria-labelledby="newPlaceModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<form method="POST" action="{{ url_for('place.new') }}">
+			{{ form.hidden_tag() }}
 
+				<div class="modal-header">
+					<h5 class="modal-title" id="newPlaceModalLabel">New Place</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					{{ render_field(form.name )}}
+					{{ render_field(form.description )}}
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Address</label>
+						<div class="col-sm-10">
+							{{ form.adr_street(class_="form-control") }}
+							<div class="row">
+								<div class="col-sm-7">
+									{{ form.adr_city(class_="form-control") }}
+								</div>
+								<div class="col-sm-2">
+									{{ form.adr_state(class_="form-control") }}
+								</div>
+								<div class="col-sm-3">
+									{{ form.adr_zip(class_="form-control") }}
+								</div>
+							</div>
+						</div>
+					</div>
+					{{ render_field(form.phone )}}
+					{{ render_field(form.website_url )}}
+					{{ render_field(form.yelp_url )}}
+					{{ render_boolean(form.visited )}}
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+		</div>
 	</div>
+</div>
 
 {% endblock %}
