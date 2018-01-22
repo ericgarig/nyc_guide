@@ -81,7 +81,8 @@ def new():
     return redirect(url_for('.list'))
 
 
-@vp.route('/<int:id>/delete/')
+@vp.route('/<int:id>/delete/', methods=['POST'])
+@login_required
 def delete(id):
     """Delete a place."""
     place = Place.query.get(id)
