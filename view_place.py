@@ -74,6 +74,7 @@ def new():
                               ).count() == 0:
             new_place = Place()
             form.populate_obj(new_place)
+            new_place.id = None
             db.session.add(new_place)
             db.session.commit()
             return redirect(url_for('.list'))
